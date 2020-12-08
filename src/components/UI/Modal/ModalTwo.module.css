@@ -1,0 +1,32 @@
+.ModalTwo {
+  position: fixed;
+  border: 2px solid red;
+  z-index: 300;
+  color: red;
+  font-weight: bold;
+  background-color: white;
+  left: 40%;
+  top: 5%;
+  transition: all 0.1s ease-in-out;
+  width: 20%;
+  border-radius: 1em;
+  padding: 2em 0;
+  display: flex;
+}
+
+/* .container {
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+} */
+
+.Cancle {
+  /* background: green; */
+  position: absolute;
+  cursor: pointer;
+  z-index: 300;
+  right: 0px;
+  top: 20px;
+  font-size: 50px;
+  /* color: white; */
+}
