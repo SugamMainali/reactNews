@@ -69,7 +69,7 @@ export const userDetailError = (userError) => {
 export const authServerData = (orderData) => {
   return (dispatch) => {
     axios
-      .post("/useDetails", orderData)
+      .post("/useDetails.json", orderData)
       .then((response) => {
         console.log("r" + response);
         // this.props.history.push("/singin");
