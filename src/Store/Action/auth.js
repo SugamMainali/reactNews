@@ -66,6 +66,19 @@ export const userDetailError = (userError) => {
   };
 };
 
+export const setRedirectPath = () => {
+  return {
+    type: actionTypes.SET_REDIREECT_PATH_NULL,
+  };
+};
+
+export const setRedirectPathAgain = (path) => {
+  return {
+    type: actionTypes.SET_REDIREECT_PATH_AGAIN,
+    path: path,
+  };
+};
+
 export const authServerData = (orderData) => {
   return (dispatch) => {
     axios

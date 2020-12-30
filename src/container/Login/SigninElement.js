@@ -25,7 +25,7 @@ export const FormWrap = styled.div`
   display: flex;
   text-align: center;
   justify-content: space-between;
-  border: 2px solid red;
+
   position: sticky;
   top: 100px;
   left: 300px;
@@ -61,7 +61,7 @@ export const FormContent = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  border: 2px solid yellow;
+  border: 20px solid transparent;
   flex-direction: column;
   justify-content: center;
   @media (max-width: 840px) {
@@ -72,7 +72,7 @@ export const FormContent = styled.div`
 export const Form = styled.form`
   background: #acace6;
   max-width: 50 0px;
-  border: 10px solid purple;
+
   height: auto;
   width: 100%;
   z-index: 1;

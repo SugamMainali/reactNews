@@ -5,4 +5,6 @@ export {
   logOutUser,
   authServerData,
   removeError,
+  setRedirectPath,
+  setRedirectPathAgain,
 } from "./auth";

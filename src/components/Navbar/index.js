@@ -16,7 +16,7 @@ import {
 import { IconContext } from "react-icons/lib";
 import { animateScroll as scroll } from "react-scroll";
 import * as actions from "../../Store/Action/index";
-// import { Redirect } from "react-router";
+import { Redirect } from "react-router";
 
 const Navbar = (props) => {
   const [scrollNav, setScrollNav] = useState(false);
@@ -35,30 +35,97 @@ const Navbar = (props) => {
 
   const toggleHome = () => {
     scroll.scrollToTop();
+
+    props.onSetReirectPath();
+  };
+
+  const goToAuthFile = () => {
+    props.history.push("./main");
+    props.onSetReirectPathAgain("/");
   };
 
   let navValue = null;
 
-  if (props.isAutherized) {
-    navValue = <NavMenuLink>MENU</NavMenuLink>;
+  if (props.isAutherized && props.pathRedirect) {
+    navValue = <NavMenuLink onClick={goToAuthFile}>MENU</NavMenuLink>;
+  }
+
+  let navRemaningValue = (
+    <React.Fragment>
+      <NavItems>
+        <NavLinks
+          to="about"
+          spy={true}
+          exact="true"
+          smooth={true}
+          offset={-80}
+          duration={500}
+        >
+          About
+        </NavLinks>
+      </NavItems>
+      <NavItems>
+        <NavLinks
+          to="discover"
+          spy={true}
+          exact="true"
+          smooth={true}
+          offset={-80}
+          duration={500}
+        >
+          Discover
+        </NavLinks>
+      </NavItems>
+      <NavItems>
+        <NavLinks
+          to="services"
+          spy={true}
+          exact="true"
+          smooth={true}
+          offset={-80}
+          duration={500}
+        >
+          Services
+        </NavLinks>
+      </NavItems>
+      <NavItems>
+        <NavLinks
+          to="signup"
+          spy={true}
+          exact="true"
+          smooth={true}
+          offset={-80}
+          duration={500}
+        >
+          Sign Up
+        </NavLinks>
+      </NavItems>
+    </React.Fragment>
+  );
+
+  if (!props.pathRedirect) {
+    navRemaningValue = null;
   }
 
   const style = {
     background: props.isAutherized ? "#000" : null,
-    marginTop: props.isAutherized ? "80px" : null,
-    height: props.isAutherized ? "-80px" : null,
+    marginTop: props.isAutherized ? "0px" : null,
   };
 
   const logOutUserHandler = () => {
     props.onLogOut(props.history.push("/"));
+    props.onSetReirectPath();
     // <Redirect to="/" />;
   };
   return (
     <React.Fragment>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <Nav scrollNav={scrollNav}>
-          <NavbarContainer style={style}>
-            <NavLogo to="/" onClick={toggleHome}>
+        <Nav scrollNav={scrollNav} style={style}>
+          <NavbarContainer>
+            <NavLogo
+              onClick={toggleHome}
+              to={props.pathRedirect ? "/" : props.pathRedirectValue}
+            >
               Listen
               <span>NEWS</span>
             </NavLogo>
@@ -66,54 +133,7 @@ const Navbar = (props) => {
               <FaBars />
             </MobileIcon>
             <NavMenu>
-              <NavItems>
-                <NavLinks
-                  to="about"
-                  spy={true}
-                  exact="true"
-                  smooth={true}
-                  offset={-80}
-                  duration={500}
-                >
-                  About
-                </NavLinks>
-              </NavItems>
-              <NavItems>
-                <NavLinks
-                  to="discover"
-                  spy={true}
-                  exact="true"
-                  smooth={true}
-                  offset={-80}
-                  duration={500}
-                >
-                  Discover
-                </NavLinks>
-              </NavItems>
-              <NavItems>
-                <NavLinks
-                  to="services"
-                  spy={true}
-                  exact="true"
-                  smooth={true}
-                  offset={-80}
-                  duration={500}
-                >
-                  Services
-                </NavLinks>
-              </NavItems>
-              <NavItems>
-                <NavLinks
-                  to="signup"
-                  spy={true}
-                  exact="true"
-                  smooth={true}
-                  offset={-80}
-                  duration={500}
-                >
-                  Sign Up
-                </NavLinks>
-              </NavItems>
+              {navRemaningValue}
               {navValue}
             </NavMenu>
             <NavBtn>
@@ -133,12 +153,17 @@ const Navbar = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAutherized: state.token !== null,
+    pathRedirect: state.pathRedirect === null,
+    pathRedirectValue: state.pathRedirect,
   };
 };
 
 const mapDiasptchToProps = (dispatch) => {
   return {
     onLogOut: () => dispatch(actions.logOutUser()),
+    onSetReirectPath: () => dispatch(actions.setRedirectPath()),
+    onSetReirectPathAgain: (path) =>
+      dispatch(actions.setRedirectPathAgain(path)),
   };
 };
 export default connect(mapStateToProps, mapDiasptchToProps)(Navbar);

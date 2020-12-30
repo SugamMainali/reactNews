@@ -115,6 +115,7 @@ class SignIn extends Component {
       this.state.logInDetails.Password.value
     );
 
+    this.props.onSetReirectPathAgain("/");
     // if (this.props.isAuthrised) {
     //   console.log(this.props.isAuthrised);
     //   this.props.history.push("/Main");
@@ -235,6 +236,8 @@ const mapDispatchToProps = (dispatch) => {
     onVerifyingEmailAndPw: (email, password) =>
       dispatch(actions.authIn(email, password)),
     onRemovingError: () => dispatch(actions.removeError()),
+    onSetReirectPathAgain: (path) =>
+      dispatch(actions.setRedirectPathAgain(path)),
   };
 };
 

@@ -8,6 +8,7 @@ const initialState = {
   newToken: null,
   userError: null,
   errorSignUp: null,
+  pathRedirect: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -33,6 +34,18 @@ const authReducer = (state = initialState, action) => {
         ...state,
         errorSignUp: action.errorSingUp,
         loading: false,
+      };
+
+    case actionTypes.SET_REDIREECT_PATH_NULL:
+      return {
+        ...state,
+        pathRedirect: null,
+      };
+
+    case actionTypes.SET_REDIREECT_PATH_AGAIN:
+      return {
+        ...state,
+        pathRedirect: action.path,
       };
 
     case actionTypes.USER_ERROR_DISPLAY:
