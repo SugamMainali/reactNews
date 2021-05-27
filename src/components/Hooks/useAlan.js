@@ -3,28 +3,3 @@
 // import NewsCards from "../NewsCards/NewsCards";
 
 // export default function useAlan() {
-//   const [newsArticles, setNewsArticles] = useState([]);
-
-//   useEffect(() => {
-//     alanBtn({
-//       key:
-//         "4b6b6a1ad8d4ae474f05b364f817ef8f2e956eca572e1d8b807a3e2338fdd0dc/stage",
-//       onCommand: ({ command, articles }) => {
-//         if (command === "newHeadlines") {
-//           console.log(command);
-//           console.log(articles);
-//           setNewsArticles(articles);
-//         }
-//       },
-//     });
-//     // return () => {
-//     //   cleanup
-//     // }
-//   }, []);
-
-//   return (
-//     <React.Fragment>
-//       <NewsCards article={newsArticles} />
-//     </React.Fragment>
-//   );
-// }

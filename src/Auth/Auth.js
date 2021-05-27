@@ -1,38 +1,119 @@
 import Navbar from "../components/Navbar";
-import classes from "./Auth.module.css";
+import classesAuth from "./Auth.module.css";
+import useStyles from "./styles";
 import { connect } from "react-redux";
 import alanBtn from "@alan-ai/alan-sdk-web";
 import React, { useState, useEffect } from "react";
 import NewsCards from "../components/NewsCards/NewsCards";
+import wordsToNumbers from "words-to-numbers";
+import { Typography } from "@material-ui/core";
+import Modal from "../Modal/Modal";
+import logo from "../assets/images/news.jpg";
 
 const Auth = (props) => {
-  // if (props.isAutherized) {
-
-  // }
+  const [activeArticle, setActiveArticle] = useState(0);
   const [newsArticles, setNewsArticles] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     alanBtn({
       key:
-        "4b6b6a1ad8d4ae474f05b364f817ef8f2e956eca572e1d8b807a3e2338fdd0dc/stage",
-      onCommand: ({ command, articles }) => {
+        "64370f4c903e66c5b517887fefa45c1b2e956eca572e1d8b807a3e2338fdd0dc/stage",
+      onCommand: ({ command, articles, number }) => {
         if (command === "newHeadlines") {
-          console.log(command);
-          console.log(articles);
           setNewsArticles(articles);
+          setActiveArticle(-1);
+        } else if (command === "instructions") {
+          setIsOpen(true);
+        } else if (command === "highlight") {
+          setActiveArticle((prevActiveArticle) => prevActiveArticle + 1);
+        } else if (command === "open") {
+          const parsedNumber =
+            number.length > 2
+              ? wordsToNumbers(number, { fuzzy: true })
+              : number;
+          const article = articles[parsedNumber - 1];
+
+          if (parsedNumber > articles.length) {
+            alanBtn().playText("Please try that again...");
+          } else if (article) {
+            window.open(article.url, "_blank");
+            alanBtn().playText("Opening...");
+          } else {
+            alanBtn().playText("Please try that again...");
+          }
         }
       },
     });
-    // return () => {
-    //   cleanup
-    // }
   }, []);
 
   return (
-    <React.Fragment>
+    <div>
       <Navbar {...props} />
-      <NewsCards article={newsArticles} />
-    </React.Fragment>
+      <div className={classes.logoContainer}>
+        {newsArticles.length ? (
+          <div className={classes.infoContainer}>
+            <div className={classes.card}>
+              <Typography variant="h5" component="h2">
+                Try saying: <br />
+                <br />
+                Open article number [4]
+              </Typography>
+            </div>
+            <div className={classes.card}>
+              <Typography variant="h5" component="h2">
+                Try saying: <br />
+                <br />
+                Go back
+              </Typography>
+            </div>
+          </div>
+        ) : null}
+        <img
+          // style={{
+          //   height: "200px",
+          //   width: "40%",
+          //   position: "relative",
+          //   left: "500px",
+          // }}
+          src={logo}
+          className={classes.alanLogo}
+          alt="logo"
+        />
+      </div>
+      <NewsCards articles={newsArticles} activeArticle={activeArticle} />
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/*!newsArticles.length ? (
+        <div className={classes.footer}>
+          <Typography variant="body1" component="h2">
+            Created by
+            <a
+              className={classes.link}
+              href="https://www.linkedin.com/in/sugammainali/"
+            >
+              {" "}
+              Sugam Mainali
+            </a>{" "}
+            -
+            <a
+              className={classes.link}
+              href="http://facebook.com/sugammainali"
+            >
+              {" "}
+              facebook
+            </a>
+          </Typography>
+          <img
+            className={classes.image}
+            src={logo}
+            height="50px"
+            alt="JSMastery logo"
+          />
+        </div>
+      ) : null */}
+    </div>
   );
 };
 

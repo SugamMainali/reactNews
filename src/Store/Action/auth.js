@@ -148,7 +148,7 @@ export const authIn = (email, password) => {
             response.data.refreshToken
           )
         );
-        dispatch(logOutUserTime(response.data.expiresIn));
+        // dispatch(logOutUserTime(response.data.expiresIn));
       })
       .catch((error) => {
         dispatch(authUpFail(error.response.data.error));
